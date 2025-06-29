@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
+    <link rel="icon" type="image/png" href="/icon.png">
     <link rel="stylesheet" href="/style.css">
-      <link rel="icon" type="image/x-png" href="/icon.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -55,27 +55,40 @@
         <% if (pdfData) { %>
             <div class="pdf-container">
                 <div class="pdf-controls">
-                    <button onclick="prevPage()" class="btn-control">
+                    <button onclick="prevPage()" class="btn-control" title="Halaman Sebelumnya (←)">
                         <i class="fas fa-chevron-left"></i>
                     </button>
                     <span id="page-info">
                         Halaman <span id="page-num">1</span> dari <span id="page-count">-</span>
                     </span>
-                    <button onclick="nextPage()" class="btn-control">
+                    <button onclick="nextPage()" class="btn-control" title="Halaman Selanjutnya (→)">
                         <i class="fas fa-chevron-right"></i>
                     </button>
-                    <button onclick="zoomIn()" class="btn-control">
+                    <button onclick="zoomIn()" class="btn-control" title="Perbesar (+)">
                         <i class="fas fa-search-plus"></i>
                     </button>
-                    <button onclick="zoomOut()" class="btn-control">
+                    <button onclick="zoomOut()" class="btn-control" title="Perkecil (-)">
                         <i class="fas fa-search-minus"></i>
                     </button>
+                    <button onclick="toggleFullHeight()" class="btn-control" id="fullheight-btn" title="Mode Full Height (F)">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </button>
+                    <button onclick="fitToWidth()" class="btn-control" title="Sesuaikan Lebar (W)">
+                        <i class="fas fa-arrows-alt-h"></i>
+                    </button>
+                </div>
+
+                <div class="pdf-help">
+                    <small>
+                        <i class="fas fa-keyboard"></i>
+                        Gunakan: ← → (navigasi), + - (zoom), F (full height), W (fit width)
+                    </small>
                 </div>
                 
                 <div class="pdf-viewer">
-                    <canvas id="pdf-canvas"></canvas>
+                    <canvas id="pdf-canvas" style="display: none;"></canvas>
                 </div>
-                
+
                 <div class="loading" id="loading">
                     <i class="fas fa-spinner fa-spin"></i>
                     Memuat PDF...
@@ -95,8 +108,10 @@
                 let pageRendering = false;
                 let pageNumPending = null;
                 let scale = 1.5;
+                let isFullHeight = false;
                 const canvas = document.getElementById('pdf-canvas');
                 const ctx = canvas.getContext('2d');
+                const pdfViewer = document.querySelector('.pdf-viewer');
 
                 // Load PDF
                 function loadPDF() {
@@ -125,10 +140,14 @@
                             canvasContext: ctx,
                             viewport: viewport
                         };
-                        
+
                         const renderTask = page.render(renderContext);
                         renderTask.promise.then(function() {
                             pageRendering = false;
+                            // Show canvas only after first render is complete
+                            if (canvas.style.display === 'none') {
+                                canvas.style.display = 'block';
+                            }
                             if (pageNumPending !== null) {
                                 renderPage(pageNumPending);
                                 pageNumPending = null;
@@ -178,6 +197,78 @@
                     link.download = 'KHS_<%= nim %>_<%= year %>_<%= season %>.pdf';
                     link.click();
                 }
+
+                // Toggle full height mode
+                function toggleFullHeight() {
+                    isFullHeight = !isFullHeight;
+                    const btn = document.getElementById('fullheight-btn');
+
+                    if (isFullHeight) {
+                        pdfViewer.style.maxHeight = '95vh';
+                        pdfViewer.style.minHeight = '90vh';
+                        btn.innerHTML = '<i class="fas fa-compress-arrows-alt"></i>';
+                        btn.title = 'Mode Normal';
+                    } else {
+                        pdfViewer.style.maxHeight = '80vh';
+                        pdfViewer.style.minHeight = '500px';
+                        btn.innerHTML = '<i class="fas fa-expand-arrows-alt"></i>';
+                        btn.title = 'Mode Full Height';
+                    }
+                }
+
+                // Fit PDF to width
+                function fitToWidth() {
+                    if (pdfDoc) {
+                        pdfDoc.getPage(pageNum).then(function(page) {
+                            const viewport = page.getViewport({scale: 1});
+                            const containerWidth = pdfViewer.clientWidth - 60; // minus padding
+                            scale = containerWidth / viewport.width;
+                            queueRenderPage(pageNum);
+                        });
+                    }
+                }
+
+                // Auto-fit on window resize
+                window.addEventListener('resize', function() {
+                    if (pdfDoc) {
+                        setTimeout(fitToWidth, 100);
+                    }
+                });
+
+                // Keyboard shortcuts
+                document.addEventListener('keydown', function(e) {
+                    if (pdfDoc) {
+                        switch(e.key) {
+                            case 'ArrowLeft':
+                                e.preventDefault();
+                                prevPage();
+                                break;
+                            case 'ArrowRight':
+                                e.preventDefault();
+                                nextPage();
+                                break;
+                            case '+':
+                            case '=':
+                                e.preventDefault();
+                                zoomIn();
+                                break;
+                            case '-':
+                                e.preventDefault();
+                                zoomOut();
+                                break;
+                            case 'f':
+                            case 'F':
+                                e.preventDefault();
+                                toggleFullHeight();
+                                break;
+                            case 'w':
+                            case 'W':
+                                e.preventDefault();
+                                fitToWidth();
+                                break;
+                        }
+                    }
+                });
 
                 // Initialize PDF when page loads
                 document.addEventListener('DOMContentLoaded', loadPDF);
