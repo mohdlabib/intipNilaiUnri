@@ -1,29 +1,49 @@
-# Intip Nilai Anak UNRI
+# 🎓 Intip Nilai Anak UNRI
 
-Website modern dan minimalis untuk mengambil dan menampilkan Kartu Hasil Studi (KHS) mahasiswa Universitas Riau melalui API.
+Website modern untuk mengambil dan menampilkan KHS (Kartu Hasil Studi) mahasiswa UNRI. Dibangun dengan **Next.js** untuk performa optimal dan pengalaman pengguna yang luar biasa.
 
-## Fitur
+## ✨ Fitur
 
-- **Desain Modern & Minimalis**: Interface cantik dengan warna FFA673 yang menonjol
-- **Style Cartoon/Ilustrasi**: Desain yang friendly dan menarik
-- **Fully Responsive**: Optimal untuk mobile, tablet, dan desktop
-- **Container System**: Layout yang rapi dengan container terstruktur
-- **Halaman Input**: Form untuk memasukkan NIM, tahun, dan semester
-- **Halaman Hasil**: Menampilkan PDF KHS dengan viewer interaktif
-- **PDF Viewer**: Navigasi halaman, zoom in/out, download PDF
-- **Animasi Smooth**: Transisi dan animasi yang halus
+### 🎨 Design & UI
+- **Modern Next.js Architecture**: React components dengan SSR
+- **Responsive Design**: Optimal untuk mobile, tablet, dan desktop
+- **Minimalist Interface**: Warna FFA673 yang eye-catching
+- **Smooth Animations**: Transisi dan hover effects yang halus
 - **Typography**: Font Poppins yang modern dan readable
-- **Error Handling**: Penanganan error yang user-friendly
 
-## Teknologi
+### 🚀 Functionality
+- **Form Input**: Validasi NIM, tahun, dan semester
+- **API Integration**: Koneksi ke external KHS service
+- **PDF Viewer**: Interactive PDF.js dengan navigasi
+- **Download Feature**: Download PDF hasil KHS
+- **Error Handling**: User-friendly error messages
+- **Loading States**: Real-time feedback untuk user
 
-- **Backend**: Node.js dengan Express.js
-- **Template Engine**: EJS
+### ⚡ Performance
+- **Next.js Optimization**: Automatic code splitting
+- **Fast Loading**: Optimized images dan assets
+- **SEO Ready**: Meta tags dan structured data
+- **Production Ready**: Built for Vercel deployment
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **Framework**: Next.js 14 (React 18)
+- **Styling**: CSS3 dengan Custom Properties
+- **Icons**: Font Awesome 6
+- **Fonts**: Google Fonts (Poppins)
 - **PDF Viewer**: PDF.js
-- **Styling**: CSS3 dengan animasi modern, gradients, dan backdrop-filter
-- **Typography**: Inter font untuk tampilan modern
-- **Icons**: Font Awesome + custom icon
-- **Color Scheme**: FFA673 (Orange) sebagai warna utama
+
+### Backend
+- **Runtime**: Node.js
+- **API Routes**: Next.js API Routes
+- **HTTP Client**: Axios
+- **Deployment**: Vercel (optimized)
+
+### Development
+- **Package Manager**: npm
+- **Linting**: ESLint
+- **Hot Reload**: Next.js Fast Refresh
 
 ## Instalasi
 
