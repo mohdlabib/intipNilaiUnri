@@ -1,24 +1,21 @@
 {
-  "name": "intip-nilai-anak-unri",
+  "name": "intipnilaianakunri",
   "version": "1.0.0",
   "description": "Website untuk mengambil dan menampilkan KHS mahasiswa UNRI",
-  "private": true,
+  "main": "app.js",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "export": "next export"
+    "start": "node app.js",
+    "dev": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
+  "author": "Freack & Gum",
+  "license": "ISC",
   "dependencies": {
-    "next": "^14.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "axios": "^1.10.0"
-  },
-  "devDependencies": {
-    "eslint": "^8.0.0",
-    "eslint-config-next": "^14.0.0"
+    "axios": "^1.10.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "multer": "^2.0.1"
   },
   "engines": {
     "node": ">=18.x"
