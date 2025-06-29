@@ -1,11 +1,11 @@
 # 🎓 Intip Nilai Anak UNRI
 
-Website modern untuk mengambil dan menampilkan KHS (Kartu Hasil Studi) mahasiswa UNRI. Dibangun dengan **Next.js** untuk performa optimal dan pengalaman pengguna yang luar biasa.
+Website modern untuk mengambil dan menampilkan KHS (Kartu Hasil Studi) mahasiswa UNRI. Dibangun dengan **Express.js** dan **EJS** untuk performa optimal dan pengalaman pengguna yang luar biasa.
 
 ## ✨ Fitur
 
 ### 🎨 Design & UI
-- **Modern Next.js Architecture**: React components dengan SSR
+- **Modern Express.js Architecture**: Server-side rendering dengan EJS
 - **Responsive Design**: Optimal untuk mobile, tablet, dan desktop
 - **Minimalist Interface**: Warna FFA673 yang eye-catching
 - **Smooth Animations**: Transisi dan hover effects yang halus
@@ -28,22 +28,21 @@ Website modern untuk mengambil dan menampilkan KHS (Kartu Hasil Studi) mahasiswa
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework**: Next.js 14 (React 18)
+- **Template Engine**: EJS
 - **Styling**: CSS3 dengan Custom Properties
 - **Icons**: Font Awesome 6
 - **Fonts**: Google Fonts (Poppins)
 - **PDF Viewer**: PDF.js
 
 ### Backend
+- **Framework**: Express.js
 - **Runtime**: Node.js
-- **API Routes**: Next.js API Routes
 - **HTTP Client**: Axios
-- **Deployment**: Vercel (optimized)
+- **Deployment**: Vercel
 
 ### Development
 - **Package Manager**: npm
-- **Linting**: ESLint
-- **Hot Reload**: Next.js Fast Refresh
+- **Hot Reload**: Nodemon (development)
 
 ## Instalasi
 

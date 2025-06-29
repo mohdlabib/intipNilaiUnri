@@ -1,8 +1,19 @@
 {
   "version": 2,
-  "framework": "nextjs",
+  "builds": [
+    {
+      "src": "app.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/app.js"
+    }
+  ],
   "functions": {
-    "pages/api/**/*.js": {
+    "app.js": {
       "maxDuration": 30
     }
   }
