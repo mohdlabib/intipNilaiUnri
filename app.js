@@ -5,6 +5,9 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust proxy for Vercel
+app.set('trust proxy', 1);
+
 // Set view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -12,7 +15,9 @@ app.set('views', path.join(__dirname, 'views'));
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {
+    maxAge: process.env.NODE_ENV === 'production' ? '1d' : 0
+}));
 
 // Routes
 app.get('/', (req, res) => {
@@ -39,10 +44,11 @@ app.post('/get-nilai', async (req, res) => {
         console.log('Calling API:', apiUrl);
         
         const response = await axios.get(apiUrl, {
-            timeout: 10000,
+            timeout: 15000, // Increased timeout for Vercel
             responseType: 'arraybuffer',
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'Accept': 'application/pdf,*/*'
             }
         });
 
@@ -96,6 +102,11 @@ app.post('/get-nilai', async (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
+}
+
+// Export for Vercel
+module.exports = app;
