@@ -6,7 +6,7 @@ export default function AppIcon({ size = 35, className = '' }) {
 
   // Try multiple icon sources
   const iconSources = [
-    'https://i.pinimg.com/736x/d6/4a/9f/d64a9fc240a2172440832575ad3e1ba1.jpg',
+    'https://iili.io/F5MHKF9.png',
     '/icon.png',
     '/public/icon.png',
     // Fallback to a simple data URI if needed
@@ -69,14 +69,11 @@ export default function AppIcon({ size = 35, className = '' }) {
       style={{
         width: size,
         height: size,
-        objectFit: 'cover',
+        objectFit: 'contain',
         display: 'block',
         imageRendering: '-webkit-optimize-contrast',
         opacity: iconLoaded ? 1 : 0.8,
-        transition: 'opacity 0.3s ease',
-        borderRadius: '50%',
-        border: '2px solid rgba(255, 166, 115, 0.3)',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+        transition: 'opacity 0.3s ease, transform 0.3s ease'
       }}
     />
   );
