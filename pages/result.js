@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 import Header from '../components/Header'
 import Alert from '../components/Alert'
 import PDFViewer from '../components/PDFViewer'
@@ -12,15 +13,7 @@ export default function Result() {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    if (router.isReady && success === 'true') {
-      fetchPDF()
-    } else if (router.isReady && !success) {
-      router.push('/')
-    }
-  }, [router.isReady, success])
-
-  const fetchPDF = async () => {
+  const fetchPDF = useCallback(async () => {
     try {
       const response = await fetch('/api/get-pdf', {
         method: 'POST',
@@ -43,7 +36,15 @@ export default function Result() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [nim, year, season])
+
+  useEffect(() => {
+    if (router.isReady && success === 'true') {
+      fetchPDF()
+    } else if (router.isReady && !success) {
+      router.push('/')
+    }
+  }, [router.isReady, success, fetchPDF, router])
 
   if (!router.isReady) {
     return <div>Loading...</div>
@@ -64,10 +65,10 @@ export default function Result() {
           />
 
           <div className="action-buttons">
-            <a href="/" className="btn btn-secondary">
+            <Link href="/" className="btn btn-secondary">
               <i className="fas fa-arrow-left"></i>
               Kembali
-            </a>
+            </Link>
             {pdfData && (
               <button onClick={() => downloadPDF()} className="btn btn-primary">
                 <i className="fas fa-download"></i>

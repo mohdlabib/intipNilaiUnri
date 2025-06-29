@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 
 export default function PDFViewer({ pdfData, nim, year, season }) {
   const canvasRef = useRef(null)
@@ -9,34 +9,9 @@ export default function PDFViewer({ pdfData, nim, year, season }) {
   const [loading, setLoading] = useState(true)
   const [rendering, setRendering] = useState(false)
 
-  useEffect(() => {
-    loadPDF()
-  }, [pdfData])
-
-  useEffect(() => {
-    if (pdfDoc) {
-      renderPage(pageNum)
-    }
-  }, [pdfDoc, pageNum, scale])
-
-  const loadPDF = async () => {
-    if (typeof window !== 'undefined' && window.pdfjsLib && pdfData) {
-      try {
-        const loadingTask = window.pdfjsLib.getDocument({ data: atob(pdfData) })
-        const pdf = await loadingTask.promise
-        setPdfDoc(pdf)
-        setPageCount(pdf.numPages)
-        setLoading(false)
-      } catch (error) {
-        console.error('Error loading PDF:', error)
-        setLoading(false)
-      }
-    }
-  }
-
-  const renderPage = async (num) => {
+  const renderPage = useCallback(async (num) => {
     if (!pdfDoc || rendering) return
-    
+
     setRendering(true)
     try {
       const page = await pdfDoc.getPage(num)
@@ -58,7 +33,32 @@ export default function PDFViewer({ pdfData, nim, year, season }) {
     } finally {
       setRendering(false)
     }
-  }
+  }, [pdfDoc, rendering, scale])
+
+  const loadPDF = useCallback(async () => {
+    if (typeof window !== 'undefined' && window.pdfjsLib && pdfData) {
+      try {
+        const loadingTask = window.pdfjsLib.getDocument({ data: atob(pdfData) })
+        const pdf = await loadingTask.promise
+        setPdfDoc(pdf)
+        setPageCount(pdf.numPages)
+        setLoading(false)
+      } catch (error) {
+        console.error('Error loading PDF:', error)
+        setLoading(false)
+      }
+    }
+  }, [pdfData])
+
+  useEffect(() => {
+    loadPDF()
+  }, [loadPDF])
+
+  useEffect(() => {
+    if (pdfDoc) {
+      renderPage(pageNum)
+    }
+  }, [pdfDoc, pageNum, renderPage])
 
   const prevPage = () => {
     if (pageNum <= 1) return
@@ -92,7 +92,7 @@ export default function PDFViewer({ pdfData, nim, year, season }) {
       }
       document.head.appendChild(script)
     }
-  }, [])
+  }, [loadPDF])
 
   if (loading) {
     return (
