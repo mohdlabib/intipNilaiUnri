@@ -5,7 +5,14 @@ export default function Header({ title, subtitle, icon }) {
     <div className="header">
       <div className="header-icon">
         {icon && icon.startsWith('/') ? (
-          <Image src={icon} alt="Icon" width={35} height={35} />
+          <Image
+            src={icon}
+            alt="Icon"
+            width={35}
+            height={35}
+            priority
+            style={{ width: '35px', height: '35px' }}
+          />
         ) : (
           <i className={icon} style={{ color: 'white', fontSize: '1.8rem' }}></i>
         )}

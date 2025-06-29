@@ -4,6 +4,23 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+/* Prevent layout shift */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Prevent FOUC (Flash of Unstyled Content) */
+.container {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
 body {
     font-family: 'Poppins', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
     background: linear-gradient(135deg, #FFA673 0%, #FF8A50 50%, #FF6B35 100%);
@@ -11,6 +28,8 @@ body {
     padding: 0;
     overflow-x: hidden;
     position: relative;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
 }
 
 body::before {
@@ -89,6 +108,8 @@ body::before {
     width: 35px;
     height: 35px;
     filter: none;
+    object-fit: contain;
+    display: block;
 }
 
 .header h1 {

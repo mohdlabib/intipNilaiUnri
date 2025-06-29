@@ -12,6 +12,7 @@ export default function Result() {
   const [pdfData, setPdfData] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [mounted, setMounted] = useState(false)
 
   const fetchPDF = useCallback(async () => {
     try {
@@ -39,6 +40,10 @@ export default function Result() {
   }, [nim, year, season])
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
     if (router.isReady && success === 'true') {
       fetchPDF()
     } else if (router.isReady && !success) {
@@ -46,8 +51,15 @@ export default function Result() {
     }
   }, [router.isReady, success, fetchPDF, router])
 
-  if (!router.isReady) {
-    return <div>Loading...</div>
+  if (!mounted || !router.isReady) {
+    return (
+      <div className="container">
+        <div className="loading">
+          <i className="fas fa-spinner fa-spin"></i>
+          Loading...
+        </div>
+      </div>
+    )
   }
 
   return (

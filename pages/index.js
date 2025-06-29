@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Header from '../components/Header'
@@ -8,7 +8,12 @@ import Alert from '../components/Alert'
 export default function Home() {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const router = useRouter()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleSubmit = async (formData) => {
     setError(null)
@@ -48,15 +53,19 @@ export default function Home() {
     }
   }
 
+  if (!mounted) {
+    return null
+  }
+
   return (
     <>
       <Head>
         <title>Intip Nilai Anak UNRI</title>
       </Head>
-      
+
       <div className="container">
         <div className="content-wrapper">
-          <Header 
+          <Header
             title="Intip Nilai Anak UNRI"
             subtitle="Masukkan data untuk mengambil nilai KHS"
             icon="/icon.png"
