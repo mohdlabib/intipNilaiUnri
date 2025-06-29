@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+          <link rel="icon" type="image/x-png" href="/icon.png">
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Floating decorative shapes -->
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+
+    <div class="container">
+        <div class="content-wrapper">
+            <div class="header">
+                <div class="header-icon">
+                    <img src="/icon.png" alt="Icon" />
+                </div>
+                <h1><%= title %></h1>
+                <p>Masukkan data untuk mengambil nilai KHS😏😎</p>
+            </div>
+
+        <% if (error) { %>
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-triangle"></i>
+                <%= error %>
+            </div>
+        <% } %>
+
+        <form action="/get-nilai" method="POST" class="form-container">
+            <div class="form-group">
+                <label for="nim">
+                    <i class="fas fa-id-card"></i>
+                    NIM (Nomor Induk Mahasiswa)
+                </label>
+                <input 
+                    type="text" 
+                    id="nim" 
+                    name="nim" 
+                    placeholder="Contoh: 2202124***"
+                    required
+                    pattern="[0-9]+"
+                    title="NIM harus berupa angka"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="year">
+                    <i class="fas fa-calendar-alt"></i>
+                    Tahun
+                </label>
+                <select id="year" name="year" required>
+                    <option value="2024" selected>Pilih Tahun</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="season">
+                    <i class="fas fa-calendar"></i>
+                    Semester
+                </label>
+                <select id="season" name="season" required>
+                    <option value="">Pilih Semester</option>
+                    <option value="1">Semester 1 (Ganjil)</option>
+                    <option value="2">Semester 2 (Genap)</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-search"></i>
+                Ambil Nilai KHS
+            </button>
+        </form>
+
+            <center>
+                <p style="font-size: 0.8rem; color: #ffffff; margin-top: 20px;">💻 By Freack & Gum ✨</p>
+            </center>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>
