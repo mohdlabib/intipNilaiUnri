@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
+import AppIcon from '../components/AppIcon';
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -70,7 +70,7 @@ export default function Home() {
         <div className="content-wrapper">
           <div className="header">
             <div className="header-icon">
-              <Image src="/icon.png" alt="Icon" width={35} height={35} priority />
+              <AppIcon size={35} />
             </div>
             <h1>Intip Nilai Anak UNRI</h1>
             <p>Masukkan data untuk mengambil nilai KHS😏😎</p>
