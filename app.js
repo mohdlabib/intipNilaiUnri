@@ -39,6 +39,7 @@ app.post('/get-nilai', async (req, res) => {
         // Call API
         const apiUrl = `https://khs.freack21.web.id/?nim=${nim}&year=${year}&season=${season}`;
         console.log('Calling API:', apiUrl);
+        console.log('Received year from form:', year, typeof year);
         
         const response = await axios.get(apiUrl, {
             timeout: 15000, // Increased timeout for Vercel
@@ -56,21 +57,26 @@ app.post('/get-nilai', async (req, res) => {
             // Convert PDF to base64
             const pdfBuffer = Buffer.from(response.data);
             const pdfBase64 = pdfBuffer.toString('base64');
-            
+
+            // Convert year back to academic year format for display
+            const academicYear = `${year}/${parseInt(year) + 1}`;
+            console.log('Academic year for display:', academicYear);
+
             res.render('result', {
                 title: 'Hasil Nilai',
                 nim,
-                year,
+                year: academicYear,
                 season,
                 pdfData: pdfBase64,
                 error: null
             });
         } else {
             // Handle non-PDF response
+            const academicYear = `${year}/${parseInt(year) + 1}`;
             res.render('result', {
                 title: 'Hasil Nilai',
                 nim,
-                year,
+                year: academicYear,
                 season,
                 pdfData: null,
                 error: 'Response bukan file PDF. Mungkin data tidak ditemukan.',
