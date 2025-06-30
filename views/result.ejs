@@ -23,7 +23,7 @@
                     <i class="fas fa-file-pdf" style="color: white; font-size: 1.8rem;"></i>
                 </div>
                 <h1><%= title %></h1>
-                <p>NIM: <%= nim %> | Tahun: <%= year %> | Semester: <%= season %></p>
+                <p>🎯 NIM: <%= nim %> | 📅 Tahun Akademik: <%= year %> | 📚 Semester: <%= season %></p>
             </div>
 
         <div class="action-buttons">
@@ -55,20 +55,23 @@
         <% if (pdfData) { %>
             <div class="pdf-container">
                 <div class="pdf-controls">
-                    <button onclick="prevPage()" class="btn-control">
-                        <i class="fas fa-chevron-left"></i>
+                    <button onclick="prevPage()" class="btn-control" title="Halaman Sebelumnya">
+                        <i class="fas fa-angle-left"></i>
                     </button>
                     <span id="page-info">
-                        Halaman <span id="page-num">1</span> dari <span id="page-count">-</span>
+                        📄 Halaman <span id="page-num">1</span> dari <span id="page-count">-</span>
                     </span>
-                    <button onclick="nextPage()" class="btn-control">
-                        <i class="fas fa-chevron-right"></i>
+                    <button onclick="nextPage()" class="btn-control" title="Halaman Selanjutnya">
+                        <i class="fas fa-angle-right"></i>
                     </button>
-                    <button onclick="zoomIn()" class="btn-control">
-                        <i class="fas fa-search-plus"></i>
+                    <button onclick="zoomOut()" class="btn-control" title="Perkecil">
+                        <i class="fas fa-minus"></i>
                     </button>
-                    <button onclick="zoomOut()" class="btn-control">
-                        <i class="fas fa-search-minus"></i>
+                    <button onclick="zoomIn()" class="btn-control" title="Perbesar">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button onclick="resetZoom()" class="btn-control" title="Reset Zoom">
+                        <i class="fas fa-expand-arrows-alt"></i>
                     </button>
                 </div>
                 
