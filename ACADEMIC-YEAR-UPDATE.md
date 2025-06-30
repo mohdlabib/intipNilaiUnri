@@ -13,7 +13,7 @@ Aplikasi **Intip Nilai Anak UNRI** telah diupdate untuk menggunakan format tahun
 
 ### After (New Format):
 - Dropdown: `2024/2025`, `2023/2024`, `2022/2023`, etc.
-- Value sent to API: `2025` (tahun kedua dari 2024/2025)
+- Value sent to API: `2024` (tahun pertama dari 2024/2025)
 - Display: `Tahun Akademik: 2024/2025`
 
 ## 🔄 Logika Auto-Update
@@ -35,9 +35,9 @@ if (currentMonth >= 7) {
 ```
 
 ### Contoh Perhitungan:
-- **Januari 2025**: Academic year = `2024/2025` (value: `2025`)
-- **Juli 2025**: Academic year = `2025/2026` (value: `2026`)
-- **Desember 2025**: Academic year = `2025/2026` (value: `2026`)
+- **Januari 2025**: Academic year = `2024/2025` (value: `2024`)
+- **Juli 2025**: Academic year = `2025/2026` (value: `2025`)
+- **Desember 2025**: Academic year = `2025/2026` (value: `2025`)
 
 ## 📊 Implementation Details
 
@@ -48,7 +48,7 @@ for (let i = 0; i <= 5; i++) {
     const year = academicYear - i;
     const prevYear = year - 1;
     const option = document.createElement('option');
-    option.value = year.toString(); // Send year kedua ke server
+    option.value = prevYear.toString(); // Send year pertama ke server
     option.textContent = `${prevYear}/${year}`; // Display format akademik
 }
 ```
@@ -56,7 +56,7 @@ for (let i = 0; i <= 5; i++) {
 ### 2. Backend (Express.js)
 ```javascript
 // Convert year back to academic format for display
-const academicYear = `${parseInt(year) - 1}/${year}`;
+const academicYear = `${year}/${parseInt(year) + 1}`;
 
 res.render('result', {
     title: 'Hasil Nilai',
@@ -69,7 +69,7 @@ res.render('result', {
 
 ### 3. API Call
 ```javascript
-// API tetap menerima tahun kedua (2025 dari 2024/2025)
+// API menerima tahun pertama (2024 dari 2024/2025)
 const apiUrl = `https://khs.freack21.web.id/?nim=${nim}&year=${year}&season=${season}`;
 ```
 
@@ -111,8 +111,8 @@ const apiUrl = `https://khs.freack21.web.id/?nim=${nim}&year=${year}&season=${se
 
 ### Logic Mapping:
 ```
-Jan-Jun 2025 → Academic Year 2024/2025 → API Year: 2025
-Jul-Dec 2025 → Academic Year 2025/2026 → API Year: 2026
+Jan-Jun 2025 → Academic Year 2024/2025 → API Year: 2024
+Jul-Dec 2025 → Academic Year 2025/2026 → API Year: 2025
 ```
 
 ## 🧪 Testing Scenarios
@@ -120,7 +120,7 @@ Jul-Dec 2025 → Academic Year 2025/2026 → API Year: 2026
 ### Test Cases:
 1. **Current Month = January**: Should show `2024/2025` as current
 2. **Current Month = July**: Should show `2025/2026` as current
-3. **API Call**: Should send `2025` for `2024/2025`
+3. **API Call**: Should send `2024` for `2024/2025`
 4. **Display**: Should show `📅 Tahun Akademik: 2024/2025`
 
 ### Manual Testing:
@@ -160,7 +160,7 @@ Aplikasi sekarang menggunakan format tahun akademik yang:
 **Example Flow:**
 1. User sees: `2024/2025` in dropdown
 2. User selects: `2024/2025`
-3. API receives: `year=2025`
+3. API receives: `year=2024`
 4. Result shows: `📅 Tahun Akademik: 2024/2025`
 
 Perfect! 🎉
