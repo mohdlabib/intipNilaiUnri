@@ -59,21 +59,25 @@ app.post('/get-nilai', async (req, res) => {
             // Convert PDF to base64
             const pdfBuffer = Buffer.from(response.data);
             const pdfBase64 = pdfBuffer.toString('base64');
-            
+
+            // Convert year back to academic year format for display
+            const academicYear = `${parseInt(year) - 1}/${year}`;
+
             res.render('result', {
                 title: 'Hasil Nilai',
                 nim,
-                year,
+                year: academicYear,
                 season,
                 pdfData: pdfBase64,
                 error: null
             });
         } else {
             // Handle non-PDF response
+            const academicYear = `${parseInt(year) - 1}/${year}`;
             res.render('result', {
                 title: 'Hasil Nilai',
                 nim,
-                year,
+                year: academicYear,
                 season,
                 pdfData: null,
                 error: 'Response bukan file PDF. Mungkin data tidak ditemukan.',
